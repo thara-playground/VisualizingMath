@@ -5,6 +5,9 @@ public class Graph : MonoBehaviour
     [SerializeField]
     Transform pointPrefab;
 
+    [SerializeField, Range(10, 100)]
+    int resolution = 10;
+
     void Awake()
     {
         var position = Vector3.zero;
