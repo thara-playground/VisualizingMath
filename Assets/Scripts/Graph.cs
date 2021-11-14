@@ -9,9 +9,14 @@ public class Graph : MonoBehaviour
     int resolution = 10;
 
     [SerializeField]
-    FunctionLibrary.FunctionName function;
+    FunctionLibrary.FunctionName function = default;
+
+    [SerializeField, Min(0f)]
+    float functionDuration = 1;
 
     Transform[] points;
+
+    float duration;
 
     void Awake()
     {
@@ -28,6 +33,17 @@ public class Graph : MonoBehaviour
     }
 
     void Update()
+    {
+        duration += Time.deltaTime;
+        if (functionDuration <= duration)
+        {
+            duration -= functionDuration;
+            function = FunctionLibrary.GetNextFunctionName(function);
+        }
+        UpdateFunction();
+    }
+
+    void UpdateFunction()
     {
         FunctionLibrary.Function f = FunctionLibrary.GetFunction(function);
         float time = Time.time;

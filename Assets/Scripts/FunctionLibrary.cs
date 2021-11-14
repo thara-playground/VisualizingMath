@@ -15,6 +15,11 @@ public static class FunctionLibrary
         return functions[(int)name];
     }
 
+    public static FunctionName GetNextFunctionName(FunctionName name)
+    {
+        return (int)name < functions.Length - 1 ? name + 1 : 0;
+    }
+
     public static Vector3 Wave(float u, float v, float t)
     {
         Vector3 p;
