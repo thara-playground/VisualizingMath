@@ -8,7 +8,7 @@ public static class FunctionLibrary
 
     public enum FunctionName { Wave, MultiWave, Ripple, Sphere, Torus };
 
-    static Function[] functions = { Wave, MultiWave, Ripple, Sphere, Torus };
+    static Function[] functions = { /*Wave,*/ MultiWave, Ripple, Sphere, Torus };
 
     public static Function GetFunction(FunctionName name)
     {
