@@ -11,7 +11,7 @@ float2 GetUV(uint3 id) {
 }
 
 void SetPosition(uint3 id, float3 position) {
-    if (id.x < _Resolution & id.y < _Resolution) {
+    if (id.x < _Resolution && id.y < _Resolution) {
         _Positions[id.x + id.y * _Resolution] = position;
     }
 }

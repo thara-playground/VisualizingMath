@@ -88,7 +88,7 @@ public class GPUGraph : MonoBehaviour
         computeShader.SetBuffer(0, positionsId, positionsBuffer);
 
         int groups = Mathf.CeilToInt(resolution / 8f);
-        computeShader.Dispatch(0, 1, 1, 1);
+        computeShader.Dispatch(0, groups, groups, 1);
 
         material.SetBuffer(positionsId, positionsBuffer);
         material.SetFloat(stepId, step);
