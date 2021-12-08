@@ -273,9 +273,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 381205468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd35f4e0d79de4623b99b95c9724d036, type: 3}
+  m_Script: {fileID: 11500000, guid: bd6e4d521adda684087aa982fe7d78d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 381205470}
+  displayMode: 0
+  sampleDuration: 1
 --- !u!1 &552483718
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,9 +776,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointPrefab: {fileID: 4092640850284503104, guid: 91d6b5fda9dbb434e9d8b3fc5c20b6d8, type: 3}
-  resolution: 200
+  resolution: 100
   function: 4
-  transitionMode: 0
+  transitionMode: 1
   functionDuration: 1
   transitionDuration: 1
 --- !u!114 &1653563050
@@ -790,11 +793,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d1cbcc68c6614918884f03315939681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolution: 200
+  resolution: 100
   function: 0
-  transitionMode: 0
+  transitionMode: 1
   functionDuration: 1
-  transitionDuration: 0
+  transitionDuration: 1
   computeShader: {fileID: 7200000, guid: 3f48673e54c304211945a386cda1dc44, type: 3}
   material: {fileID: 2100000, guid: 4d3e8e448e4c44338a3ea13bb7e3f5ed, type: 2}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
