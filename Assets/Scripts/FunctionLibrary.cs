@@ -8,17 +8,14 @@ public static class FunctionLibrary
 
     public enum FunctionName { Wave, MultiWave, Ripple, Sphere, Torus };
 
-    static Function[] functions = { /*Wave,*/ MultiWave, Ripple, Sphere, Torus };
+    static Function[] functions = { Wave, MultiWave, Ripple, Sphere, Torus };
 
-    public static Function GetFunction(FunctionName name)
-    {
-        return functions[(int)name];
-    }
+	public static int FunctionCount => functions.Length;
 
-    public static FunctionName GetNextFunctionName(FunctionName name)
-    {
-        return (int)name < functions.Length - 1 ? name + 1 : 0;
-    }
+    public static Function GetFunction (FunctionName name) => functions[(int)name];
+
+    public static FunctionName GetNextFunctionName (FunctionName name) =>
+		(int) name < functions.Length - 1 ? name + 1 : 0;
 
     public static FunctionName GetRandomFunctionNameOtherThan(FunctionName name)
     {
