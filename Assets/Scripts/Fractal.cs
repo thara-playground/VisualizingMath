@@ -36,6 +36,8 @@ public class Fractal : MonoBehaviour
 
     static readonly int matricesId = Shader.PropertyToID("_Matrices");
 
+    static MaterialPropertyBlock propertyBlock;
+
     void OnEnable ()
     {
         parts = new FractalPart[depth][];
@@ -57,6 +59,8 @@ public class Fractal : MonoBehaviour
                 }
             }
         }
+
+        propertyBlock ??= new MaterialPropertyBlock();
     }
 
     void OnDisable ()
@@ -121,8 +125,8 @@ public class Fractal : MonoBehaviour
         for (int i = 0; i < matricesBuffers.Length; i++) {
             ComputeBuffer buffer = matricesBuffers[i];
             buffer.SetData(matrics[i]);
-            material.SetBuffer(matricesId, buffer);
-            Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, buffer.count);
+            propertyBlock.SetBuffer(matricesId, buffer);
+            Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, buffer.count, propertyBlock);
         }
     }
 }
