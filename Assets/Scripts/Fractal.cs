@@ -33,15 +33,27 @@ public class Fractal : MonoBehaviour
     void Awake()
     {
         parts = new FractalPart[depth][];
-        int length = 1;
-        for (int i = 0, length = 1; i < parts.length; i++, length *= 5) {
+        for (int i = 0, length = 1; i < parts.Length; i++, length *= 5) {
             parts[i] = new FractalPart[length];
+        }
+
+        float scale = 1f;
+        CreatePart(0, 0, scale);
+        for (int li = 1; li < parts.Length; li++) {
+            scale *= 0.5f;
+            FractalPart[] levelParts = parts[li];
+            for (int fpi = 0; fpi < levelParts.Length; fpi += 5) {
+                for (int ci = 0; ci < 5; ci++) {
+                    CreatePart(li, ci, scale);
+                }
+            }
         }
     }
 
-    void CreatePart()
+    void CreatePart(int levelIndex, int childIndex, float scale)
     {
-        var go = new GameObject("Fractal Part");
+        var go = new GameObject("Fractal Part L" + levelIndex + " C" + childIndex);
+        go.transform.localScale = scale * Vector3.one;
         go.transform.SetParent(transform, false);
         go.AddComponent<MeshFilter>().mesh = mesh;
         go.AddComponent<MeshRenderer>().material = material;
