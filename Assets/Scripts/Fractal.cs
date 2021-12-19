@@ -34,6 +34,8 @@ public class Fractal : MonoBehaviour
         Quaternion.Euler(90f, 0f, 0f), Quaternion.Euler(-90f, 0f, 0f)
     };
 
+    static readonly int matricesId = Shader.PropertyToID("_Matrices");
+
     void OnEnable ()
     {
         parts = new FractalPart[depth][];
@@ -115,8 +117,12 @@ public class Fractal : MonoBehaviour
             }
         }
 
+        var bounds = new Bounds(Vector3.zero, 3f * Vector3.one);
         for (int i = 0; i < matricesBuffers.Length; i++) {
-            matricesBuffers[i].SetData(matrics[i]);
+            ComputeBuffer buffer = matricesBuffers[i];
+            buffer.SetData(matrics[i]);
+            material.SetBuffer(matricesId, buffer);
+            Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, buffer.count);
         }
     }
 }
