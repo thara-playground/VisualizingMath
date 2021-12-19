@@ -22,6 +22,8 @@ public class Fractal : MonoBehaviour
 
     Matrix4x4[][] matrics;
 
+    ComputeBuffer[] matricesBuffers;
+
     static Vector3[] directions = {
         Vector3.up, Vector3.right, Vector3.left, Vector3.forward, Vector3.back
     };
@@ -32,13 +34,16 @@ public class Fractal : MonoBehaviour
         Quaternion.Euler(90f, 0f, 0f), Quaternion.Euler(-90f, 0f, 0f)
     };
 
-    void Awake()
+    void OnEnable ()
     {
         parts = new FractalPart[depth][];
         matrics = new Matrix4x4[depth][];
+        matricesBuffers = new ComputeBuffer[depth];
+        int stride = 16 * 4;
         for (int i = 0, length = 1; i < parts.Length; i++, length *= 5) {
             parts[i] = new FractalPart[length];
             matrics[i] = new Matrix4x4[length];
+            matricesBuffers[i] = new ComputeBuffer(length, stride);
         }
 
         parts[0][0] = CreatePart(0);
@@ -49,6 +54,24 @@ public class Fractal : MonoBehaviour
                     levelParts[fpi + ci] = CreatePart(ci);
                 }
             }
+        }
+    }
+
+    void OnDisable ()
+    {
+        for (int i = 0; i < matricesBuffers.Length; i++) {
+            matricesBuffers[i].Release();
+        }
+        parts = null;
+        matrics = null;
+        matricesBuffers = null;
+    }
+
+    void OnValidate()
+    {
+        if (parts != null && enabled) {
+            OnDisable();
+            OnEnable();
         }
     }
 
@@ -90,6 +113,10 @@ public class Fractal : MonoBehaviour
                     part.worldPosition, part.worldRotation, scale * Vector3.one
                 );
             }
+        }
+
+        for (int i = 0; i < matricesBuffers.Length; i++) {
+            matricesBuffers[i].SetData(matrics[i]);
         }
     }
 }
