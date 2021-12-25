@@ -147,7 +147,7 @@ public class Fractal : MonoBehaviour
                 parents = parts[li - 1],
                 parts = parts[li],
                 matrices = matrics[li]
-            }.Schedule(parts[li].Length, jobHandle);
+            }.ScheduleParallel(parts[li].Length, 5, jobHandle);
         }
         jobHandle.Complete();
 
