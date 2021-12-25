@@ -21,9 +21,9 @@ public class Fractal : MonoBehaviour
     [SerializeField]
     Material material;
 
-    FractalPart[][] parts;
+    NativeArray<FractalPart>[] parts;
 
-    Matrix4x4[][] matrics;
+    NativeArray<Matrix4x4>[] matrics;
 
     ComputeBuffer[] matricesBuffers;
 
@@ -43,19 +43,19 @@ public class Fractal : MonoBehaviour
 
     void OnEnable ()
     {
-        parts = new FractalPart[depth][];
-        matrics = new Matrix4x4[depth][];
+        parts = new NativeArray<FractalPart>[depth];
+        matrics = new NativeArray<Matrix4x4>[depth];
         matricesBuffers = new ComputeBuffer[depth];
         int stride = 16 * 4;
         for (int i = 0, length = 1; i < parts.Length; i++, length *= 5) {
-            parts[i] = new FractalPart[length];
-            matrics[i] = new Matrix4x4[length];
+            parts[i] = new NativeArray<FractalPart>(length, Allocator.Persistent);
+            matrics[i] = new NativeArray<Matrix4x4>(length, Allocator.Persistent);
             matricesBuffers[i] = new ComputeBuffer(length, stride);
         }
 
         parts[0][0] = CreatePart(0);
         for (int li = 1; li < parts.Length; li++) {
-            FractalPart[] levelParts = parts[li];
+            NativeArray<FractalPart> levelParts = parts[li];
             for (int fpi = 0; fpi < levelParts.Length; fpi += 5) {
                 for (int ci = 0; ci < 5; ci++) {
                     levelParts[fpi + ci] = CreatePart(ci);
@@ -70,6 +70,8 @@ public class Fractal : MonoBehaviour
     {
         for (int i = 0; i < matricesBuffers.Length; i++) {
             matricesBuffers[i].Release();
+            parts[i].Dispose();
+            matrics[i].Dispose();
         }
         parts = null;
         matrics = null;
@@ -106,9 +108,9 @@ public class Fractal : MonoBehaviour
         float scale = objectScale;
         for (int li = 1; li < parts.Length; li++) {
             scale *= 0.5f;
-            FractalPart[] parentParts = parts[li - 1];
-            FractalPart[] levelParts = parts[li];
-            Matrix4x4[] levelMatrics = matrics[li];
+            NativeArray<FractalPart> parentParts = parts[li - 1];
+            NativeArray<FractalPart> levelParts = parts[li];
+            NativeArray<Matrix4x4> levelMatrics = matrics[li];
             for (int fpi = 0; fpi < levelParts.Length; fpi++) {
                 FractalPart parent = parentParts[fpi / 5];
                 FractalPart part = levelParts[fpi];
