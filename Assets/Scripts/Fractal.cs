@@ -18,7 +18,21 @@ public class Fractal : MonoBehaviour
         [WriteOnly]
         public NativeArray<Matrix4x4> matrices;
 
-        public void Execute (int i) {}
+        public void Execute (int i) {
+            FractalPart parent = parents[i / 5];
+            FractalPart part = parts[i];
+            part.spinAngle += parent.spinAngle;
+            part.worldRotation =
+                parent.worldRotation *
+                (part.rotation * Quaternion.Euler(0f, part.spinAngle, 0f));
+            part.worldPosition =
+                parent.worldPosition +
+                parent.worldRotation * (1.5f * scale * part.direction);
+            parts[i] = part;
+            matrices[i] = Matrix4x4.TRS(
+                part.worldPosition, part.worldRotation, scale * Vector3.one
+            );
+        }
     }
 
     struct FractalPart {
@@ -123,24 +137,14 @@ public class Fractal : MonoBehaviour
         float scale = objectScale;
         for (int li = 1; li < parts.Length; li++) {
             scale *= 0.5f;
-            NativeArray<FractalPart> parentParts = parts[li - 1];
-            NativeArray<FractalPart> levelParts = parts[li];
-            NativeArray<Matrix4x4> levelMatrics = matrics[li];
-            for (int fpi = 0; fpi < levelParts.Length; fpi++) {
-                FractalPart parent = parentParts[fpi / 5];
-                FractalPart part = levelParts[fpi];
-                part.spinAngle += parent.spinAngle;
-                part.worldRotation =
-                    parent.worldRotation *
-                    (part.rotation * Quaternion.Euler(0f, part.spinAngle, 0f));
-                part.worldPosition =
-                    parent.worldPosition +
-                    parent.worldRotation * (1.5f * scale * part.direction);
-                levelParts[fpi] = part;
-                levelMatrics[fpi] = Matrix4x4.TRS(
-                    part.worldPosition, part.worldRotation, scale * Vector3.one
-                );
-            }
+            var job = new UpdateFractalLevelJob {
+                spinAngleDelta = spinAngleDelta,
+                scale = scale,
+                parents = parts[li - 1],
+                parts = parts[li],
+                matrices = matrics[li]
+            };
+            job.Schedule(parts[li].Length, default).Complete();
         }
 
         var bounds = new Bounds(rootPart.worldPosition, 3f * objectScale * Vector3.one);
