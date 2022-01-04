@@ -157,7 +157,11 @@ public class Fractal : MonoBehaviour
         for (int i = 0; i < matricesBuffers.Length; i++) {
             ComputeBuffer buffer = matricesBuffers[i];
             buffer.SetData(matrics[i]);
-            propertyBlock.SetColor(baseColorId, Color.white * (i / (matricesBuffers.Length - 1f)));
+            propertyBlock.SetColor(
+                baseColorId, Color.Lerp(
+                    Color.yellow, Color.red, i / (matricesBuffers.Length - 1f)
+                )
+            );
             propertyBlock.SetBuffer(matricesId, buffer);
             Graphics.DrawMeshInstancedProcedural(mesh, 0, material, bounds, buffer.count, propertyBlock);
         }
