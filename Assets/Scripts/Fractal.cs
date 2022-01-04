@@ -36,7 +36,7 @@ public class Fractal : MonoBehaviour
             quaternion baseRotation;
             if (0f < sagMagnitude) {
                 sagAxis /= sagMagnitude;
-                quaternion sagRotation = quaternion.AxisAngle(sagAxis, PI * 0.25f);
+                quaternion sagRotation = quaternion.AxisAngle(sagAxis, PI * 0.25f * sagMagnitude);
                 baseRotation = mul(sagRotation, parent.worldRotation);
             } else {
                 baseRotation = parent.worldRotation;
@@ -151,7 +151,7 @@ public class Fractal : MonoBehaviour
 
     void Update()
     {
-        float spinAngleDelta = 0.125f * PI * Time.deltaTime * 0f;
+        float spinAngleDelta = 0.125f * PI * Time.deltaTime;
 
         FractalPart rootPart = parts[0][0];
         rootPart.spinAngle += spinAngleDelta;
