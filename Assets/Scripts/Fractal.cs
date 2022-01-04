@@ -31,13 +31,22 @@ public class Fractal : MonoBehaviour
 
             float3 upAxis = mul(mul(parent.worldRotation, part.rotation), up());
             float3 sagAxis = cross(up(), upAxis);
-            sagAxis = normalize(sagAxis);
 
-            part.worldRotation = mul(parent.worldRotation,
+            float sagMagnitude = length(sagAxis);
+            quaternion baseRotation;
+            if (0f < sagMagnitude) {
+                sagAxis /= sagMagnitude;
+                quaternion sagRotation = quaternion.AxisAngle(sagAxis, PI * 0.25f);
+                baseRotation = mul(sagRotation, parent.worldRotation);
+            } else {
+                baseRotation = parent.worldRotation;
+            }
+
+            part.worldRotation = mul(baseRotation,
                 mul(part.rotation, quaternion.RotateY(part.spinAngle)));
             part.worldPosition =
                 parent.worldPosition +
-                mul(parent.worldRotation, 1.5f * scale * part.direction);
+                mul(part.worldRotation, float3(0f, 1.5f * scale, 0f));
             parts[i] = part;
 
             float3x3 r = float3x3(part.worldRotation) * scale;
@@ -46,7 +55,7 @@ public class Fractal : MonoBehaviour
     }
 
     struct FractalPart {
-        public float3 direction, worldPosition;
+        public float3 worldPosition;
         public Quaternion rotation, worldRotation;
         public float spinAngle;
     }
@@ -71,10 +80,6 @@ public class Fractal : MonoBehaviour
     NativeArray<float3x4>[] matrics;
 
     ComputeBuffer[] matricesBuffers;
-
-    static float3[] directions = {
-        up(), right(), left(), forward(), back()
-    };
 
     static Quaternion[] rotations = {
         quaternion.identity,
@@ -141,7 +146,6 @@ public class Fractal : MonoBehaviour
     }
 
     FractalPart CreatePart(int childIndex) => new FractalPart {
-        direction = directions[childIndex],
         rotation = rotations[childIndex],
     };
 
