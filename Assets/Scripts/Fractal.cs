@@ -28,6 +28,11 @@ public class Fractal : MonoBehaviour
             FractalPart parent = parents[i / 5];
             FractalPart part = parts[i];
             part.spinAngle += spinAngleDelta;
+
+            float3 upAxis = mul(mul(parent.worldRotation, part.rotation), up());
+            float3 sagAxis = cross(up(), upAxis);
+            sagAxis = normalize(sagAxis);
+
             part.worldRotation = mul(parent.worldRotation,
                 mul(part.rotation, quaternion.RotateY(part.spinAngle)));
             part.worldPosition =
@@ -142,7 +147,7 @@ public class Fractal : MonoBehaviour
 
     void Update()
     {
-        float spinAngleDelta = 0.125f * PI * Time.deltaTime;
+        float spinAngleDelta = 0.125f * PI * Time.deltaTime * 0f;
 
         FractalPart rootPart = parts[0][0];
         rootPart.spinAngle += spinAngleDelta;
