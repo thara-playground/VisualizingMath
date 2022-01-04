@@ -387,18 +387,47 @@ MonoBehaviour:
   depth: 6
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   material: {fileID: 2100000, guid: 0dae32db5a71c4344b3a5c85aefd5d8f, type: 2}
-  gradient:
+  gradientA:
     serializedVersion: 2
-    key0: {r: 0.019579919, g: 0.6397102, b: 0.8301887, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.063412234, g: 0.10864304, b: 0.8962264, a: 1}
+    key1: {r: 0.20392159, g: 0.5803922, b: 0.89019614, a: 1}
+    key2: {r: 0.35478687, g: 1, b: 0.43368718, a: 1}
+    key3: {r: 0.93913233, g: 1, b: 0.9465756, a: 0}
+    key4: {r: 1, g: 1, b: 1, a: 0}
+    key5: {r: 1, g: 1, b: 1, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 9830
+    ctime1: 24287
+    ctime2: 60524
+    ctime3: 63415
+    ctime4: 63608
+    ctime5: 65535
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 65535
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 6
+    m_NumAlphaKeys: 2
+  gradientB:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.9274027, b: 0.0141509175, a: 1}
+    key1: {r: 1, g: 0.015686274, b: 0.6215027, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 386
-    ctime1: 65535
+    ctime0: 25250
+    ctime1: 55127
     ctime2: 0
     ctime3: 0
     ctime4: 0
