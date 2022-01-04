@@ -17,7 +17,11 @@ void ConfigureProcedural () {
 float4 _BaseColor;
 
 float4 GetFractalColor () {
+#if defined(UNITY_PROCEDURAL_INSTANCING_ENABLED)
+    return (unity_InstanceID % 10.0) / 9.0;
+#else
     return _BaseColor;
+#endif
 }
 
 // connect it to the graph for using this hlsl from other shaders
