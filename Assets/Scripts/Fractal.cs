@@ -27,7 +27,7 @@ public class Fractal : MonoBehaviour
         public void Execute (int i) {
             FractalPart parent = parents[i / 5];
             FractalPart part = parts[i];
-            part.spinAngle += parent.spinAngle;
+            part.spinAngle += spinAngleDelta;
             part.worldRotation = mul(parent.worldRotation,
                 mul(part.rotation, quaternion.RotateY(part.spinAngle)));
             part.worldPosition =
